@@ -1,55 +1,26 @@
 class Solution {
     public int[][] generateMatrix(int n) {
         int[][] res = new int[n][n];
-        goToLeft(res, 0, 0, 1, n);
+        int tBound = 0, rBound = n - 1, dBound = n - 1, lBound = 0, curr = 1;
+        
+        while(tBound <= dBound && lBound <= rBound){
+            for(int col = lBound; col <= rBound; col++)
+                res[tBound][col] = curr++;    
+            tBound++;
+            
+            for(int row = tBound; row <= dBound; row++)
+                res[row][rBound] = curr++;
+            rBound--;
+            
+            for(int col = rBound; col >= lBound; col--)
+                res[dBound][col] = curr++;
+            dBound--;
+            
+            for(int row = dBound; row >= tBound; row--)
+                res[row][lBound] = curr++;
+            lBound++;
+        }
+        
         return res;
-    }
-    
-    public void goToLeft(int[][] res, int curr, int row, int val, int n){
-        if(val > n * n) return;
-        
-        while(curr < n && res[row][curr] == 0){
-            res[row][curr] = val;
-            val++;
-            curr++;
-        }
-        
-        goToDown(res, row + 1, curr - 1, val, n);
-    }
-    
-    public void goToDown(int[][] res, int curr, int col, int val, int n){
-        if(val > n * n) return;
-        
-        while(curr < n && res[curr][col] == 0){
-            res[curr][col] = val;
-            val++;
-            curr++;
-        }
-        
-        goToRight(res, col - 1, curr - 1, val, n);
-    }
-    
-    public void goToRight(int[][] res, int curr, int row, int val, int n){
-        if(val > n * n) return;
-        
-        while(curr >= 0 && res[row][curr] == 0){
-            res[row][curr] = val;
-            val++;
-            curr--;
-        }
-        
-        goToUp(res, row - 1, curr + 1, val, n);
-    }
-    
-    public void goToUp(int[][] res, int curr, int col, int val, int n){
-        if(val > n * n) return;
-        
-        while(curr >= 0 && res[curr][col] == 0){
-            res[curr][col] = val;
-            val++;
-            curr--;
-        }
-        
-        goToLeft(res, col + 1, curr + 1, val, n);
     }
 }
